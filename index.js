@@ -1,15 +1,13 @@
-const dataBase = require('./database.js');
-const User = require('./user.js');
+const { database } = require('./utils/database');
 
-dataBase.sync().then(() => {
-    console.log('Database is ready');
-}).catch(err => {
-    console.log(err);
+let config = {
+    database: 'test',
+    fileType: 'db'
+}
+
+let sequelize = database.createDataBase(config);
+
+sequelize.sync().then(() => {
+    console.log('Database created');
 });
-User.create({
-    username: 'admin',
-    password: 'admin',
-    email: 'azerrt'
-}).then(user => {
-    console.log(user.dataValues);
-})
+
