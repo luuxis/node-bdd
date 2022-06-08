@@ -1,27 +1,27 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 class createDataBase {
-    createDataBase(config) {
-        this.sequelize = new Sequelize('database', 'username', 'password', {
+    async createDataBase(config) {
+        let sequelize = new Sequelize('database', 'username', 'password', {
             dialect: 'sqlite',
             host: (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/'),
         });
-        return this.sequelize;
+        return sequelize;
     }
 
-    sync() {
-        return this.sequelize.sync();
+    async sync(sequelize) {
+        return await sequelize.sync();
     }
 }
 
 class table {
-    init(sequelize, config, tableConfig) {
-        return sequelize.define(config.tableName, tableConfig);
+    init(sequelize, config) {
+        return sequelize.define(config.tableName, config.tableConfig)
     }
 }
 
 module.exports = {
-    database: new createDataBase,
+    dataBase: new createDataBase,
     table: new table,
-    DataTypes,
+    DataTypes: DataTypes
 }
