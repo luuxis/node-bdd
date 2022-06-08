@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require('sequelize');
 
 class createDataBase {
-    async createDataBase(config) {
+    createDataBase(config) {
         let sequelize = new Sequelize('database', 'username', 'password', {
             dialect: 'sqlite',
             host: (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/'),
@@ -9,8 +9,8 @@ class createDataBase {
         return sequelize;
     }
 
-    async sync(sequelize) {
-        return await sequelize.sync();
+    sync(sequelize) {
+        return  sequelize.sync();
     }
 }
 

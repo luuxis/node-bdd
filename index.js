@@ -2,8 +2,8 @@ const { DataTypes, dataBase, table } = require('./utils/database');
 
 class index {
     async intilize(config) {
-        let database = await dataBase.createDataBase(config);
-        await dataBase.sync(database);
+        let database = dataBase.createDataBase(config);
+        dataBase.sync(database);
         return {
             database: database,
             table: await table.init(database, config)
@@ -15,11 +15,11 @@ class index {
     }
 
     async getAllData(table) {
-        return await table.findAll();
+        return (await table.findAll()).map(item => item.toJSON());
     }
 
     async getDataById(table, id) {
-        return await table.findOne({ where: { id } });
+        return (await table.findOne({ where: { id } })).toJSON();
     }
 
     async updateData(table, id, data) {
