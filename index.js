@@ -1,31 +1,20 @@
-const { database, table, DataTypes } = require('./utils/utils');
+const { DataTypes, dataBase, table } = require('./utils/database');
 
 class index {
-    intilize(config) {
-        this.sequelize = database.createDataBase(config);
-        this.sequelize.sync().then(() => {
-            return {
-                success: true,
-                message: 'Database initialized successfully',
-                sequelize: this.sequelize,
-            }
-        }).catch(err => {
-            return {
-                success: false,
-                message: err
-            }
-        })
-    }
-
-    createTable(sequelize, config, tableConfig) {
-        return table.init(sequelize, config, tableConfig);
+    async intilize(config) {
+        let database = await dataBase.createDataBase(config);
+        await dataBase.sync(database);
+        return {
+            database: database,
+            table: await table.init(database, config)
+        }
     }
 
     async createData(table, data) {
         return await table.create(data);
     }
 
-    async getAllDataBase(table) {
+    async getAllData(table) {
         return await table.findAll();
     }
 
@@ -34,9 +23,7 @@ class index {
     }
 
     async updateData(table, id, data) {
-        let dataOriginal = await table.findOne({ where: { id } });
-        dataOriginal = data
-        return await dataOriginal.save();
+        return await table.update(data, { where: { id } });
     }
 
     async deleteData(table, id) {
@@ -46,6 +33,6 @@ class index {
 }
 
 module.exports = {
-    index,
-    DataTypes
+    dataBase: new index,
+    DataTypes: DataTypes
 }
