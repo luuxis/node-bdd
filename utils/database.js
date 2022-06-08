@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize');
 
 class createDataBase {
     createDataBase(config) {
@@ -14,8 +14,14 @@ class createDataBase {
     }
 }
 
-
+class table {
+    init(sequelize, config, tableConfig) {
+        return sequelize.define(config.tableName, tableConfig);
+    }
+}
 
 module.exports = {
-    database: new createDataBase
+    database: new createDataBase,
+    table: new table,
+    DataTypes,
 }
