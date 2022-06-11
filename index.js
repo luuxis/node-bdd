@@ -28,7 +28,7 @@ class index {
 
     async deleteData(table, id) {
         let dataOriginal = await table.findOne({ where: { id } });
-        return await dataOriginal.destroy();
+        return dataOriginal.destroy();
     }
 }
 

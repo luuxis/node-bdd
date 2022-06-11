@@ -3,6 +3,7 @@ let config = {
     database: 'news',
     fileType: 'sqlite',
     tableName: 'news',
+    path: './database',
     tableConfig: {
         title: DataTypes.CHAR(200),
         content: DataTypes.TEXT,
@@ -17,8 +18,8 @@ async function main() {
     //     content: 'test',
     //     author: 'test'
     // });
-    let test = await dataBase.getAllData(table, 1);
-    console.log(test);
+    // let test = await dataBase.getAllData(table, 1);
+    // console.log(test);
 }
 
 main();

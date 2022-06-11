@@ -2,9 +2,13 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 class createDataBase {
     createDataBase(config) {
+        let path = config.path;
+        if (path) path = (`${path}/${config.database}.${config.fileType}`).replace('\\', '/')
+        else path = (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/')
+        
         let sequelize = new Sequelize('database', 'username', 'password', {
             dialect: 'sqlite',
-            host: (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/'),
+            host: path,
         });
         return sequelize;
     }
