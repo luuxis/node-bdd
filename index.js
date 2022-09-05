@@ -9,7 +9,7 @@ class index {
         let sequelize = new Sequelize({
             dialect: 'sqlite',
             host: path,
-            logging: config.log || true
+            logging: config.log
         });
         let table = sequelize.define(config.tableName, config.tableConfig);
         await sequelize.sync()
