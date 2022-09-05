@@ -1,13 +1,19 @@
-const { DataTypes, dataBase, table } = require('./utils/database');
+const { Sequelize, DataTypes } = require('sequelize');
 
 class index {
     async intilize(config) {
-        let database = dataBase.createDataBase(config);
-        dataBase.sync(database);
-        return {
-            database: database,
-            table: await table.init(database, config)
-        }
+        let path = config.path;
+        if (path) path = (`${path}/${config.database}.${config.fileType}`).replace('\\', '/')
+        else path = (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/')
+        
+        let sequelize = new Sequelize({
+            dialect: 'sqlite',
+            host: path,
+            logging: config.log || true
+        });
+        let table = sequelize.define(config.tableName, config.tableConfig);
+        await sequelize.sync()
+        return { sequelize, table };
     }
 
     async createData(table, data) {
