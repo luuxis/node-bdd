@@ -36,6 +36,10 @@ class index {
         let dataOriginal = await table.findOne({ where: { id } });
         return dataOriginal.destroy();
     }
+
+    async deleteAllData(table) {
+        return await table.destroy({ where: {} });
+    }
 }
 
 module.exports = {
