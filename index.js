@@ -1,4 +1,4 @@
-const { Sequelize, DataTypes } = require('sequelize');
+const { Sequelize, DataTypes } = require('sequelize-luuxis');
 
 class index {
     async intilize(config) {
@@ -21,11 +21,11 @@ class index {
     }
 
     async getAllData(table) {
-        return (await table.findAll()).map(item => item.toJSON());
+        return (await table.findAll()).map(item => item?.toJSON());
     }
 
     async getDataById(table, id) {
-        return (await table.findOne({ where: { id } })).toJSON();
+        return (await table.findOne({ where: { id } }))?.toJSON();
     }
 
     async updateData(table, id, data) {
