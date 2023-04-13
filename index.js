@@ -5,7 +5,7 @@ class index {
         let path = config.path;
         if (path) path = (`${path}/${config.database}.${config.fileType}`).replace('\\', '/')
         else path = (`${__dirname}/../database/${config.database}.${config.fileType}`).replace('\\', '/')
-        
+
         let sequelize = new Sequelize({
             dialect: 'sqlite',
             host: path,

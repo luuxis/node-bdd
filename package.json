@@ -1,6 +1,6 @@
 {
     "name": "node-bdd",
-    "version": "1.4.1",
+    "version": "1.5.0",
     "description": "A library that allows you to use databases with Node.JS and SQlite",
     "main": "index.js",
     "files": [
@@ -13,7 +13,7 @@
     "author": "luuxis",
     "license": "MIT",
     "dependencies": {
-        "sequelize-luuxis": "^6.21.4",
+        "sequelize-luuxis": "^7.0.0",
         "sqlite3": "^5.0.11"
     },
     "bugs": {
