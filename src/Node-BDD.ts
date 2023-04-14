@@ -77,7 +77,7 @@ export default class Database {
                 ]
 
                 let newsData = data.map((element: any, int: any) => element = `${columns[int]} = '${data[int]}'`)
-                
+
                 table.run(`UPDATE ${config.tableName} SET ${newsData.join(', ')} WHERE id = ${id}`, (err: any) => {
                     if (err) rejects(err)
                 })
