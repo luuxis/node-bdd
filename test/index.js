@@ -1,9 +1,9 @@
-const { NodeBDD, DataType } = require('../build/Index')
-const Nodedatabase = new NodeBDD()
+const { NodeBDD, DataType } = require('node-bdd')
 
 async function main() {
+    const Nodedatabase = new NodeBDD()
     let database = await Nodedatabase.intilize({
-        databaseName: 'news',
+        databaseName: 'test',
         fileType: 'db',
         tableName: 'news',
         path: './database',
@@ -15,6 +15,13 @@ async function main() {
         }
     })
 
-    console.log(database)
+    let data = {
+        titre: 'Luuxis',
+        name: 'André',
+        lastname: 'Gallo',
+        email: 'contact@luuxis.fr'
+    }
+
+    await Nodedatabase.updateData(database,data, 1)
 }
 main()

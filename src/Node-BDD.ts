@@ -16,7 +16,7 @@ export default class Database {
             else pathFile = path.resolve(`${__dirname}/../database`).replace('\\', '/')
 
             if (!existsSync(pathFile)) mkdirSync(pathFile, { recursive: true })
-            let db = new sqlite.Database(`${pathFile}/${config.databaseName}.${config.fileType}`)
+            let db = new sqlite.Database(`${pathFile}/${config.databaseName}.${config.fileType}`, err => rejects(err))
 
             let columns = [
                 'id INTEGER PRIMARY KEY',
@@ -25,45 +25,108 @@ export default class Database {
                 'updatedAt TATETIME'
             ]
 
-            db.run(`CREATE TABLE IF NOT EXISTS ${config.tableName}(${columns.join(',')})`)
-
-            resolve(db)
+            db.serialize(() => {
+                db.run(`CREATE TABLE IF NOT EXISTS ${config.tableName}(${columns.join(', ')})`, err => {
+                    if (err) rejects(err)
+                })
+            })
+            resolve({ config, table: db })
         })
     }
 
-    async createData(table: any, data: any) {
-        return await new Promise((resolve, rejects) => {
+    async createData({ table, config }, data: any) {
+        return await new Promise((resolve: any, rejects) => {
+            data = Object.entries(data)
 
-        })
-    }
-    
-    async getAllData(table: any) {
-        return await new Promise((resolve, rejects) => {
+            let columns = [
+                ...data.map((data: any) => data = data[0]),
+                'createdAt',
+                'updatedAt'
+            ]
 
-        })
-    }
+            data = [
+                ...data.map((data: any) => data = data[1] ? data[1] : 'null'),
+                new Date().toISOString(),
+                new Date().toISOString()
+            ]
 
-    async getDataById(table: any, id: any) {
-        return await new Promise((resolve, rejects) => {
+            let columnsNumber = data.map((data: any) => data = '?')
 
-        })
-    }
-
-    async updateData(table: any, id: any, data: any) {
-        return await new Promise((resolve, rejects) => {
-
-        })
-    }
-
-    async deleteData(table: any, id: any) {
-        return await new Promise((resolve, rejects) => {
-
+            table.serialize(() => {
+                table.run(`INSERT INTO ${config.tableName}(${columns.join(', ')}) VALUES(${columnsNumber.join(', ')})`, data, (err: any) => {
+                    if (err) rejects(err)
+                })
+            })
+            resolve()
         })
     }
 
-    async deleteAllData(table: any) {
-        return await new Promise((resolve, rejects) => {
+    async updateData({ table, config }, data: any, id: any) {
+        return await new Promise((resolve: any, rejects) => {
+            table.serialize(() => {
+                data = Object.entries(data)
 
+                let columns = [
+                    ...data.map((data: any) => data = data[0]),
+                    'updatedAt'
+                ]
+
+                data = [
+                    ...data.map((data: any) => data = data[1] ? data[1] : 'null'),
+                    new Date().toISOString()
+                ]
+
+                let newsData = data.map((element: any, int: any) => element = `${columns[int]} = '${data[int]}'`)
+                
+                table.run(`UPDATE ${config.tableName} SET ${newsData.join(', ')} WHERE id = ${id}`, (err: any) => {
+                    if (err) rejects(err)
+                })
+            })
+            resolve()
+        })
+    }
+
+    async getAllData({ table, config }) {
+        return await new Promise((resolve, rejects) => {
+            table.serialize(() => {
+                table.all(`SELECT * FROM ${config.tableName}`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data)
+                })
+            })
+        })
+    }
+
+    async getDataById({ table, config }, id: any) {
+        return await new Promise((resolve, rejects) => {
+            table.serialize(() => {
+                table.get(`SELECT * FROM ${config.tableName} WHERE id = ${id}`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data)
+                })
+            })
+        })
+    }
+
+    async deleteData({ table, config }, id: any) {
+        return await new Promise((resolve, rejects) => {
+            table.serialize(() => {
+                table.run(`DELETE FROM ${config.tableName} WHERE id = ${id}`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data)
+                })
+            })
+        })
+    }
+
+    async deleteAllData({ table, config }) {
+        return await new Promise((resolve, rejects) => {
+            table.serialize(() => {
+                table.run(`DELETE FROM ${config.tableName}`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data)
+                })
+            })
         })
     }
 }
