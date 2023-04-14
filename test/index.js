@@ -1,24 +1,20 @@
-const { DataTypes, dataBase } = require('../index');
-let config = {
-    database: 'news',
-    fileType: 'sqlite',
-    tableName: 'news',
-    path: './database',
-    tableConfig: {
-        title: DataTypes.CHAR(200),
-        content: DataTypes.TEXT,
-        author: DataTypes.CHAR(30)
-    }
-}
-async function main() {
-    let { table } = await dataBase.intilize(config);
-    await dataBase.createData(table, {
-        title: 'test',
-        content: 'test',
-        author: 'test'
-    });
-    let test = await dataBase.getAllData(table, 1);
-    console.log(test);
-}
+const { NodeBDD, DataType } = require('../build/Index')
+const Nodedatabase = new NodeBDD()
 
-main();
+async function main() {
+    let database = await Nodedatabase.intilize({
+        databaseName: 'news',
+        fileType: 'db',
+        tableName: 'news',
+        path: './database',
+        tableColumns: {
+            titre: 'VARCHAR(255)',
+            name: 'VARCHAR(255)',
+            lastname: 'VARCHAR(255)',
+            email: 'VARCHAR(255)'
+        }
+    })
+
+    console.log(database)
+}
+main()
