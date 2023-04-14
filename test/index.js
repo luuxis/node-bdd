@@ -22,6 +22,6 @@ async function main() {
         email: 'contact@luuxis.fr'
     }
 
-    await Nodedatabase.updateData(database,data, 1)
+    await Nodedatabase.updateData(database, data, 1)
 }
 main()
