@@ -21,8 +21,8 @@ export default class Database {
             let columns = [
                 'id INTEGER PRIMARY KEY',
                 ...Object.entries(config.tableColumns).map((data: any) => data = `${data[0]} ${data[1]}`),
-                'createdAt TATETIME',
-                'updatedAt TATETIME'
+                'createdAt DATETIME',
+                'updatedAt DATETIME'
             ]
 
             db.serialize(() => {

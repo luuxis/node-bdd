@@ -4,7 +4,7 @@
  */
 
 import NodeBDD from "./Node-BDD.js";
-import DataType from './DataType.js';
+import * as DataType from './DataType.js';
 
 export {
     NodeBDD as NodeBDD,

@@ -8,10 +8,10 @@ async function main() {
         tableName: 'news',
         path: './database',
         tableColumns: {
-            titre: 'VARCHAR(255)',
-            name: 'VARCHAR(255)',
-            lastname: 'VARCHAR(255)',
-            email: 'VARCHAR(255)'
+            titre: DataType.TEXT.VARCHAR(255),
+            name: DataType.TEXT.VARCHAR(255),
+            lastname: DataType.TEXT.VARCHAR(255),
+            email: DataType.TEXT.VARCHAR(255)
         }
     })
 
@@ -22,6 +22,7 @@ async function main() {
         email: 'contact@luuxis.fr'
     }
 
-    await Nodedatabase.updateData(database, data, 1)
+    await Nodedatabase.createData(database, data)
+    // await Nodedatabase.updateData(database, data, 1)
 }
 main()
