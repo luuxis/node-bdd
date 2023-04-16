@@ -69,7 +69,7 @@ let TEXT = {
     CLOB: 'CLOB'
 }
 
-export default {
+export {
     BLOB,
     INTEGER,
     NUMERIC,
