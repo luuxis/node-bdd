@@ -11,7 +11,8 @@ async function main() {
             titre: DataType.TEXT.VARCHAR(255),
             name: DataType.TEXT.VARCHAR(255),
             lastname: DataType.TEXT.VARCHAR(255),
-            email: DataType.TEXT.VARCHAR(255)
+            email: DataType.TEXT.VARCHAR(255),
+            age: DataType.TEXT.VARCHAR(255)
         }
     })
 
@@ -19,11 +20,16 @@ async function main() {
         titre: 'Luuxis',
         name: 'André',
         lastname: 'Gallo',
-        email: 'contact@luuxis.fr'
+        email: 'contact@luuxis.fr',
+        age: '20 ans'
     }
 
     // await Nodedatabase.createData(database, data)
     // await Nodedatabase.updateData(database, data, 1)
-    await Nodedatabase.getDataById(database, 3)
+    // await Nodedatabase.getDataById(database, 3)
+    await Nodedatabase.createNewsColumns(database, {
+        agea: DataType.TEXT.VARCHAR(255),
+        azertya: DataType.TEXT.VARCHAR(255)
+    })
 }
 main()

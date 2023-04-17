@@ -86,6 +86,23 @@ export default class Database {
         })
     }
 
+    async createNewsColumns({ table, config }: any, Columns: any) {
+        await new Promise((resolve: any, rejects) => {
+            table.serialize(() => {
+                let newColumns = [
+                    ...Object.entries(Columns).map((data: any) => data = `${data[0]} ${data[1]}`)
+                ]
+
+                for (let column of newColumns) {
+                    table.run(`ALTER TABLE ${config.tableName} ADD ${column}`, (err: any) => {
+                        if (err) rejects(err)
+                    })
+                }
+                resolve()
+            })
+        })
+    }
+
     async getAllData({ table, config }) {
         return await new Promise((resolve, rejects) => {
             table.serialize(() => {
