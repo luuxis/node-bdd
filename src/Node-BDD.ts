@@ -86,8 +86,19 @@ export default class Database {
         })
     }
 
+    async createColumnsIfNoteExist({ table, config }: any, Columns: any) {
+        let columnsList: any = await this.getColumnsList({ table, config })
+
+        Object.keys(Columns).forEach(key => {
+            if (columnsList.some((item: any) => item.name === key)) {
+                delete Columns[key];
+            }
+        });
+        await this.createNewsColumns({ table, config }, Columns)
+    }
+
     async createNewsColumns({ table, config }: any, Columns: any) {
-        await new Promise((resolve: any, rejects) => {
+        return new Promise((resolve: any, rejects) => {
             table.serialize(() => {
                 let newColumns = [
                     ...Object.entries(Columns).map((data: any) => data = `${data[0]} ${data[1]}`)
@@ -99,6 +110,17 @@ export default class Database {
                     })
                 }
                 resolve()
+            })
+        })
+    }
+
+    async getColumnsList({ table, config }: any) {
+        return await new Promise((resolve, rejects) => {
+            table.serialize(() => {
+                table.all(`PRAGMA table_info('${config.tableName}')`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data.map((res: any) => res = { name: res.name }))
+                })
             })
         })
     }
