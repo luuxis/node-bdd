@@ -56,8 +56,11 @@ export default class Database {
                 table.run(`INSERT INTO ${config.tableName}(${columns.join(', ')}) VALUES(${columnsNumber.join(', ')})`, data, (err: any) => {
                     if (err) rejects(err)
                 })
+                table.get(`SELECT * FROM ${config.tableName} WHERE id = last_insert_rowid()`, (err: any, data: any) => {
+                    if (err) rejects(err)
+                    resolve(data)
+                })
             })
-            resolve()
         })
     }
 
@@ -94,7 +97,10 @@ export default class Database {
                 delete Columns[key];
             }
         });
-        await this.createNewsColumns({ table, config }, Columns)
+
+        if (Object.entries(columnsList).length > 0) {
+            await this.createNewsColumns({ table, config }, Columns)
+        }
     }
 
     async createNewsColumns({ table, config }: any, Columns: any) {
