@@ -46,8 +46,8 @@ export default class Database {
 
             data = [
                 ...data.map((data: any) => data = data[1] ? data[1] : 'null'),
-                new Date().toISOString(),
-                new Date().toISOString()
+                new Date(),
+                new Date()
             ]
 
             let columnsNumber = data.map((data: any) => data = '?')
@@ -76,7 +76,7 @@ export default class Database {
 
                 data = [
                     ...data.map((data: any) => data = data[1] ? data[1] : 'null'),
-                    new Date().toISOString()
+                    new Date()
                 ]
 
                 let newsData = data.map((element: any, int: any) => element = `${columns[int]} = '${data[int]}'`)

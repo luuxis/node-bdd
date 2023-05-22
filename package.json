@@ -1,6 +1,6 @@
 {
     "name": "node-bdd",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "description": "A library that allows you to use databases with Node.JS and SQlite",
     "types": "./build/Index.d.ts",
     "exports": {
